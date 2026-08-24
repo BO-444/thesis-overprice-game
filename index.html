@@ -380,8 +380,11 @@
 
             <!-- SCENE 11: CONSUMER PHASE (EATING & DIALOGUE) -->
             <div class="scene hidden" id="scene-11">
-                <!-- Background will be custom shop interior (e.g. scene10_คาเฟ่.png) -->
-                <img src="images/scene10_คาเฟ่.png" class="bg-img" id="scene11-bg-img" alt="ร้านค้า">
+                <!-- Backgrounds preloaded to avoid flashing -->
+                <img src="images/scene10_คาเฟ่.png" class="bg-img scene11-bg hidden" id="scene11-bg-cafe" alt="คาเฟ่">
+                <img src="images/scene10_ขนมปัง.png" class="bg-img scene11-bg hidden" id="scene11-bg-bakery" alt="ขนมปัง">
+                <img src="images/scene10_มัทฉะ.png" class="bg-img scene11-bg hidden" id="scene11-bg-matcha" alt="มัทฉะ">
+                <img src="images/scene10_แฮมเบอร์เกอร์.png" class="bg-img scene11-bg hidden" id="scene11-bg-burger" alt="แฮมเบอร์เกอร์">
                 
                 <!-- HUD Bar showing player money / debt -->
                 <div class="hud-bar">
@@ -410,7 +413,10 @@
                 
                 <!-- Cost card overlay in center -->
                 <div class="scene-cost-card-wrapper hidden" id="scene12-card-wrapper">
-                    <img src="" class="scene-cost-card" id="scene12-cost-card" alt="ใบต้นทุน">
+                    <img src="images/scene12_ต้นทุนคาเฟ่.png" class="scene-cost-card scene12-cost-card-img hidden" id="scene12-cost-card-cafe" alt="ใบต้นทุนคาเฟ่">
+                    <img src="images/scene12_ต้นทุนขนมปัง.png" class="scene-cost-card scene12-cost-card-img hidden" id="scene12-cost-card-bakery" alt="ใบต้นทุนขนมปัง">
+                    <img src="images/scene12_ต้นทุนมัทฉะ.png" class="scene-cost-card scene12-cost-card-img hidden" id="scene12-cost-card-matcha" alt="ใบต้นทุนมัทฉะ">
+                    <img src="images/scene12_ต้นทุนแฮมเบอร์.png" class="scene-cost-card scene12-cost-card-img hidden" id="scene12-cost-card-burger" alt="ใบต้นทุนแฮมเบอร์เกอร์">
                 </div>
 
                 <div class="scene12-cost-btn-wrapper" id="scene12-cost-btn-wrapper">

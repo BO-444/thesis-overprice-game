@@ -1119,11 +1119,10 @@ function selectShop(shopKey) {
     // Set up Scene 11 values
     endingDialogueStep = -1;
     
-    // Set custom background based on selected shop
-    const bgImgName = shopKey === 'cafe' ? 'คาเฟ่' :
-                      shopKey === 'bakery' ? 'ขนมปัง' :
-                      shopKey === 'matcha' ? 'มัทฉะ' : 'แฮมเบอร์เกอร์';
-    getEl('scene11-bg-img').src = `images/scene10_${bgImgName}.png`;
+    // Show corresponding preloaded background image
+    document.querySelectorAll('.scene11-bg').forEach(img => img.classList.add('hidden'));
+    const targetBg = getEl(`scene11-bg-${shopKey}`);
+    if (targetBg) targetBg.classList.remove('hidden');
 
     // Hide dialogue box initially
     getEl('scene11-dialog-box').classList.add('hidden');
@@ -1140,11 +1139,10 @@ function selectShop(shopKey) {
     getEl('scene11-owner-name').textContent = shop.name;
     getEl('scene11-dialog-text').textContent = shop.dialogues[0];
 
-    // Set Scene 12 cost card source dynamically
-    const costCardName = shopKey === 'cafe' ? 'คาเฟ่' :
-                         shopKey === 'bakery' ? 'ขนมปัง' :
-                         shopKey === 'matcha' ? 'มัทฉะ' : 'แฮมเบอร์';
-    getEl('scene12-cost-card').src = `images/scene12_ต้นทุน${costCardName}.png`;
+    // Show corresponding preloaded cost card image
+    document.querySelectorAll('.scene12-cost-card-img').forEach(img => img.classList.add('hidden'));
+    const targetCard = getEl(`scene12-cost-card-${shopKey}`);
+    if (targetCard) targetCard.classList.remove('hidden');
 
     // Show Scene 11
     showScene('scene-11');
