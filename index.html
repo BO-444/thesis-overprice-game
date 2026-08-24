@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>overไพร๊ - Overprice Simulator</title>
+    <link rel="stylesheet" href="index.css?v=2.6">
+    <!-- Google Fonts for Outfit (Modern English) and Mali (Cute Thai) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars-bg"></div>
+    <div class="game-wrapper">
+        <div class="game-container" id="game-container">
+            
+            <!-- SCENE 1: HOME MENU -->
+            <div class="scene active" id="scene-home">
+                <img src="images/scene1_bg.png" class="bg-img" alt="Background">
+                <div class="logo-container">
+                    <img src="images/logo.png" class="logo-img" alt="overไพร๊ Logo">
+                </div>
+                <button class="btn-start" id="btn-home-play">
+                    <img src="images/start_btn.png" alt="Start Game">
+                </button>
+                <button class="btn-credits" id="btn-home-credits">เครดิต</button>
+                
+                <!-- Credits Modal -->
+                <div class="modal hidden" id="credits-modal">
+                    <div class="modal-content">
+                        <h2>ผู้จัดทำโครงการ Thesis</h2>
+                        <p>เสนอ คณะอนุกรรมการการศึกษาความคุ้มค่าทางการเงิน</p>
+                        <p>อาจารย์ที่ปรึกษา: ดร.เศรษฐศาสตร์ พอเพียง</p>
+                        <button class="btn-close-modal" id="btn-close-credits">ปิด</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCENE 1.5: STORY & TUTORIAL -->
+            <div class="scene hidden" id="scene-tutorial">
+                <img src="images/scene1_bg.png" class="bg-img" alt="Background">
+                
+                <div class="tutorial-card">
+                    <h2 class="tutorial-title">🎓 แนะนำเกม & วิธีการเล่น</h2>
+                    
+                    <div class="tutorial-section">
+                        <h3 class="section-title">📖 เนื้อเรื่องย่อ (Story Background)</h3>
+                        <p class="section-desc">
+                            ยินดีต้อนรับสู่โลกของ <strong>'overไพร๊' (Overprice Simulator)</strong>! ในฐานะนักศึกษาผู้ทำ Thesis เพื่อจบการศึกษา คุณมีความฝันอันยิ่งใหญ่คือการลิ้มรส <em>'เจลาโต้ระดับเอลิสต์สุดพรีเมียม'</em> แต่เงินในกระเป๋าของคุณช่างเบาบางเหลือเกิน... คุณจึงตัดสินใจเปิดร้านชงน้ำเพื่อโกยรายได้จากลูกค้าหลากหลายกลุ่มโดยใช้กลยุทธ์ <strong>'ตั้งราคาให้แพงเกินจริง'</strong>!
+                        </p>
+                    </div>
+
+                    <div class="tutorial-section">
+                        <h3 class="section-title">🎮 วิธีเล่นเบื้องต้น (How to Play)</h3>
+                        <ul class="tutorial-list">
+                            <li><strong>1. ปรุงเครื่องดื่ม (Customize):</strong> เลือกสีน้ำและใส่ของตกแต่ง 1 อย่างที่ตรงตามความชอบของลูกค้าแต่ละคน</li>
+                            <li><strong>2. เลือกแผนการตลาด (Marketing):</strong> เลือกลงทุนโฆษณาที่ใช่เพื่อขยายเพดานงบประมาณของลูกค้า ยิ่งโฆษณาโดนใจ ลูกค้ายิ่งยอมจ่ายแพง!</li>
+                            <li><strong>3. ตั้งราคาขาย (Set Price):</strong> ใช้แป้นพิมพ์เครื่องคิดเงินเพื่อตั้งราคาขายให้เหมาะสม (หากตั้งแพงเกินงบ ลูกค้าจะปฏิเสธและไม่ซื้อทันที!)</li>
+                            <li><strong>4. เป้าหมาย (Goal):</strong> ทำยอดขายสะสมให้ได้ <strong>1,000 C</strong> จากลูกค้า 3 คน เพื่อนำเงินไปซื้อไอศกรีมในฝัน!</li>
+                        </ul>
+                    </div>
+
+                    <button class="btn-primary heartbeat-btn" id="btn-tutorial-next" style="margin-top: 20px;">พร้อมแล้ว! เริ่มต้นการเดินทาง</button>
+                </div>
+            </div>
+
+            <!-- SCENE 2: INTRO NARRATIVE (SCREEN 1) -->
+            <div class="scene hidden" id="scene-intro-1">
+                <img src="images/scene2_bg.png" class="bg-img" alt="Background">
+                <button class="btn-next" id="btn-intro-1-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 2: INTRO NARRATIVE (SCREEN 2) -->
+            <div class="scene hidden" id="scene-intro-2">
+                <img src="images/scene3_bg.png" class="bg-img" alt="Background">
+                <button class="btn-next" id="btn-intro-2-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 2: GAMEPLAY - CUSTOMIZE DRINK -->
+            <div class="scene hidden" id="scene-gameplay-custom">
+                <img src="images/scene4_bg.png" class="bg-img" alt="Background">
+                
+                <!-- Stats Overlay -->
+                <div class="stats-bar">
+                    <div class="stat-item">เงินลงทุนเริ่มต้น: <span class="stat-val" id="custom-coins">200</span> C</div>
+                    <div class="stat-item">ลูกค้า: <span class="stat-val" id="custom-customer-hint">น้องคีย์</span> <button class="btn-view-npc-info" data-action="view-npc-info">💡 ดูนิสัย</button></div>
+                    <div class="stat-item">แก้วที่: <span class="stat-val" id="custom-drink-count">1</span>/3</div>
+                </div>
+
+                <!-- Customization Layout -->
+                <div class="custom-layout">
+                    <!-- Left Sidebar: Decorations -->
+                    <div class="decor-panel">
+                        <div class="decor-header-container">
+                            <img src="images/decor_header.png" class="decor-header-img" alt="เลือกของตกแต่ง">
+                        </div>
+                        <div class="decor-list-viewport">
+                            <div class="decor-list" id="decor-list">
+                                <!-- Decoration Items -->
+                                <div class="decor-item active" data-decor="sleeve">
+                                    <div class="decor-icon-wrapper">
+                                        <img src="images/decor_sleeve.png" class="decor-icon sleeve-icon" alt="Cup Sleeve">
+                                    </div>
+                                    <span class="decor-label">Cup Sleeve</span>
+                                </div>
+                                <div class="decor-item" data-decor="sticker">
+                                    <div class="decor-icon-wrapper">
+                                        <img src="images/decor_sticker.png" class="decor-icon sticker-icon" alt="Logo Sticker">
+                                    </div>
+                                    <span class="decor-label">Sticker Logo</span>
+                                </div>
+                                <div class="decor-item" data-decor="straw">
+                                    <div class="decor-icon-wrapper">
+                                        <img src="images/decor_straw.png" class="decor-icon straw-icon" alt="Curly Straw">
+                                    </div>
+                                    <span class="decor-label">Curly Straw</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scroll-arrows">
+                            <img src="images/scroll_btn.png" class="scroll-arrow-img" id="btn-scroll-decor" alt="Scroll">
+                        </div>
+                    </div>
+
+                    <!-- Center Display: Live Drink Layering -->
+                    <div class="drink-preview-container">
+                        <div class="table-overlay"></div>
+                        <div class="drink-canvas" id="drink-canvas">
+                            <!-- Pre-composed drink image will load here -->
+                            <img src="images/drink_brown.png" class="drink-layer" id="layer-base" alt="Drink Base">
+                        </div>
+                    </div>
+
+                    <!-- Bottom Bar: Drink Color Selection -->
+                    <div class="color-panel">
+                        <div class="drink-header-container">
+                            <div class="drink-header-text">เลือกน้ำที่คุณต้องการ</div>
+                        </div>
+                        <div class="color-options">
+                            <button class="color-btn active" data-color="brown">
+                                <img src="images/drink_brown_crop.png" alt="Brown">
+                            </button>
+                            <button class="color-btn" data-color="yellow">
+                                <img src="images/drink_yellow_crop.png" alt="Yellow">
+                            </button>
+                            <button class="color-btn" data-color="red">
+                                <img src="images/drink_red_crop.png" alt="Red">
+                            </button>
+                            <button class="color-btn" data-color="green">
+                                <img src="images/drink_green_crop.png" alt="Green">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <button class="btn-next" id="btn-custom-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 2: GAMEPLAY - MARKETING CAMPAIGN -->
+            <div class="scene hidden" id="scene-gameplay-marketing">
+                <img src="images/scene6_bg.png" class="bg-img" alt="Background">
+
+                <!-- Cohesive Stats Bar -->
+                <div class="stats-bar">
+                    <div class="stat-item">เงินทุนสะสม: <span class="stat-val" id="marketing-coins">200</span> C</div>
+                    <div class="stat-item">แก้วที่: <span class="stat-val" id="marketing-drink-count">1</span>/3</div>
+                </div>
+
+                <!-- 4 Floating Promo Stickers over scene6_bg -->
+                <div class="promo-stickers-row">
+                    <img src="images/promo_icon_limited.png" class="promo-sticker-btn" data-campaign="limited" data-cost="10" alt="LIMITED EDITION">
+                    <img src="images/promo_icon_ads.png" class="promo-sticker-btn" data-campaign="ads" data-cost="10" alt="ADS">
+                    <img src="images/promo_icon_influencer.png" class="promo-sticker-btn" data-campaign="influencer" data-cost="10" alt="Influencer">
+                    <img src="images/promo_icon_story.png" class="promo-sticker-btn" data-campaign="story" data-cost="10" alt="story telling">
+                </div>
+
+                <!-- Next button to skip/proceed -->
+                <div class="marketing-next-wrapper">
+                    <span class="skip-tooltip">ข้าม?</span>
+                    <button class="btn-next" id="btn-marketing-next" title="ข้าม?">
+                        <img src="images/next_btn.png" alt="Next">
+                    </button>
+                </div>
+
+                <!-- PROMO DETAIL CONFIRM MODAL OVERLAY -->
+                <div class="modal-overlay hidden" id="promo-detail-modal">
+                    <div class="promo-detail-card-container">
+                        <img src="images/promo_card_ads.png" class="promo-detail-card-img" id="promo-detail-img" alt="รายละเอียดโฆษณา">
+                        <div class="promo-cost-badge">ใช้ทุน 10 C</div>
+                        <img src="images/btn_confirm_promo.png" class="btn-confirm-promo" id="btn-confirm-promo" alt="เลือก">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCENE 2: GAMEPLAY - PRICING SCREEN -->
+            <div class="scene hidden" id="scene-gameplay-pricing">
+                <img src="images/scene4_bg.png" class="bg-img" alt="Background">
+                
+                <div class="stats-bar">
+                    <div class="stat-item">เงินทุนสะสม: <span class="stat-val" id="pricing-coins">200</span> C</div>
+                    <div class="stat-item">ลูกค้า: <span class="stat-val" id="pricing-customer-hint">น้องคีย์</span> <button class="btn-view-npc-info" data-action="view-npc-info">💡 ดูนิสัย</button></div>
+                    <div class="stat-item">แก้วที่: <span class="stat-val" id="pricing-drink-count">1</span>/3</div>
+                </div>
+
+                <div class="pricing-container">
+                    <!-- Left: Custom Drink Preview -->
+                    <div class="pricing-preview-box">
+                        <div class="preview-mini-canvas" id="pricing-mini-canvas">
+                            <!-- Layered elements will be cloned here dynamically -->
+                        </div>
+                        <div class="drink-cost-tag">ต้นทุนผลิตจริง: 45 C</div>
+                    </div>
+
+                    <!-- Right: Digital Cash Register Cashier -->
+                    <div class="cash-register" style="position: relative;">
+                        <!-- Floating Devil Hint Bubble (Temptation Mechanic) -->
+                        <div class="pricing-hint-bubble-wrapper" id="pricing-hint-bubble-wrapper">
+                            <img src="images/hint_bubble_1.png" id="pricing-hint-bubble-img" alt="คำใบ้ปีศาจโฆษณา">
+                        </div>
+                        <div class="register-header">เครื่องตั้งราคาสินค้า</div>
+                        <div class="register-screen">
+                            <div class="price-input-display" id="price-display">0</div>
+                            <div class="price-unit">C</div>
+                        </div>
+                        <div class="register-keypad">
+                            <button class="key-btn" data-val="1">1</button>
+                            <button class="key-btn" data-val="2">2</button>
+                            <button class="key-btn" data-val="3">3</button>
+                            <button class="key-btn" data-val="4">4</button>
+                            <button class="key-btn" data-val="5">5</button>
+                            <button class="key-btn" data-val="6">6</button>
+                            <button class="key-btn" data-val="7">7</button>
+                            <button class="key-btn" data-val="8">8</button>
+                            <button class="key-btn" data-val="9">9</button>
+                            <button class="key-btn clear-btn" id="btn-pricing-clear">ล้าง</button>
+                            <button class="key-btn" data-val="0">0</button>
+                            <button class="key-btn backspace-btn" id="btn-pricing-backspace">⌫</button>
+                        </div>
+                        <button class="register-submit-btn" id="btn-pricing-submit">เปิดตัวสินค้าและต้อนรับลูกค้า</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCENE 2: GAMEPLAY - NPC TRANSACTION -->
+            <div class="scene hidden" id="scene-gameplay-npc">
+                <img src="images/scene1_bg.png" class="bg-img" alt="Background">
+                
+                <div class="stats-bar">
+                    <div class="stat-item">เงินทุนสะสม: <span class="stat-val" id="npc-coins">200</span> C</div>
+                    <div class="stat-item">ลูกค้า: <span class="stat-val" id="npc-customer-hint">น้องลี่</span> <button class="btn-view-npc-info" data-action="view-npc-info">💡 ดูนิสัย</button></div>
+                    <div class="stat-item">ยอดขายสะสม: <span class="stat-val" id="npc-revenue">0</span> / 1,000 C</div>
+                </div>
+
+                <!-- Transaction Scene Area -->
+                <div class="npc-view-area">
+                    <!-- Character Container (Extra Large Centered) -->
+                    <div class="character-wrapper" id="npc-character-wrapper">
+                        <div class="placeholder-npc" id="npc-avatar" style="background-image: url('images/npc_lee.png');"></div>
+                    </div>
+                </div>
+
+                <!-- Verdict Overlay Stamps -->
+                <div class="verdict-overlay hidden" id="verdict-overlay">
+                    <div class="verdict-stamp" id="verdict-stamp">SOLD</div>
+                    <div class="verdict-reason" id="verdict-reason">ซื้อเพราะโฆษณาโดนใจและราคาคุ้มค่า!</div>
+                    <div class="verdict-coins-anim" id="verdict-coins-anim">+300 C</div>
+                </div>
+
+                <!-- Floating Retry Tooltip (only shows on REJECTED hover) -->
+                <div class="retry-tooltip-wrapper hidden" id="npc-retry-tooltip-wrapper" style="position: absolute; bottom: 16%; right: 3.8%; z-index: 70; pointer-events: none;">
+                    <span class="retry-tooltip">Retry</span>
+                </div>
+                <button class="btn-next hidden" id="btn-npc-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 2.5: MISSION FAILED (fail_bg.png) -->
+            <div class="scene hidden" id="scene-failed">
+                <img src="images/fail_bg.png" class="bg-img" alt="ภารกิจไม่สำเร็จ">
+                <button class="btn-failed-restart" id="btn-failed-restart">
+                    เล่นใหม่อีกครั้ง
+                </button>
+            </div>
+
+            <!-- SCENE 7: MISSION ACCOMPLISHED -->
+            <div class="scene hidden" id="scene-7">
+                <img src="images/scene7_bg.png" class="bg-img" alt="ภารกิจสำเร็จ">
+                <button class="btn-next" id="btn-scene7-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 8: ACTUAL COST QUESTION -->
+            <div class="scene hidden" id="scene-8">
+                <img src="images/scene8_bg.png" class="bg-img" alt="แต่คุณรู้หรือไม่ว่าต้นทุนที่แท้จริงคือเท่าไหร่ ?">
+                <button class="btn-next" id="btn-scene8-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 9: COST BREAKDOWN -->
+            <div class="scene hidden" id="scene-9">
+                <img src="images/scene9_bg.png" class="bg-img" id="scene9-bg-img" alt="ต้นทุนต่อแก้ว">
+                
+                <!-- Cost card overlay in center -->
+                <div class="scene-cost-card-wrapper hidden" id="scene9-card-wrapper">
+                    <img src="images/scene9_cost_card.png" class="scene-cost-card" id="scene9-cost-card" alt="ใบต้นทุน">
+                </div>
+
+                <div class="scene9-cost-btn-wrapper" id="scene9-cost-btn-wrapper">
+                    <div class="cost-btn-pointer-guide">
+                        <span class="guide-hand">👇</span>
+                        <span class="guide-text">กดเพื่อดูใบต้นทุน!</span>
+                    </div>
+                    <img src="images/scene9_cost_btn.png" class="scene9-cost-btn" id="btn-scene9-cost" alt="ปุ่มต้นทุน">
+                </div>
+                <button class="btn-next hidden" id="btn-scene9-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 10 TRANSITION: ROLE REVERSAL INTRO -->
+            <div class="scene hidden" id="scene-10-transition">
+                <img src="images/scene10_bg.png" class="bg-img" alt="กลับกันตอนนี้ คุณคือผู้บริโภค...">
+                <button class="btn-next" id="btn-scene10-transition-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 10: ROLE REVERSAL SHOP CHOICE -->
+            <div class="scene hidden" id="scene-10">
+                <!-- Clean shops background -->
+                <img src="images/scene9_ฉาก 9 พื้นหลัง.png" class="bg-img" alt="ร้านค้าทั้งหมด">
+                
+                <!-- 4 Shop choice zones with card overlays -->
+                <div class="shop-choice-container">
+                    <!-- Matcha -->
+                    <div class="shop-choice-btn-wrapper" style="left: 0%; width: 25%;">
+                        <div class="shop-choice-btn" data-shop="matcha" title="ร้านมัทฉะ">
+                            <img src="images/scene9_มัทฉะ.png" class="shop-card-tag" alt="มัทฉะ">
+                        </div>
+                    </div>
+                    <!-- Bakery -->
+                    <div class="shop-choice-btn-wrapper" style="left: 25%; width: 25%;">
+                        <div class="shop-choice-btn" data-shop="bakery" title="ร้านขนมปัง">
+                            <img src="images/scene9_ขนมปัง.png" class="shop-card-tag" alt="ขนมปัง">
+                        </div>
+                    </div>
+                    <!-- Burger -->
+                    <div class="shop-choice-btn-wrapper" style="left: 50%; width: 25%;">
+                        <div class="shop-choice-btn" data-shop="burger" title="ร้านแฮมเบอร์เกอร์">
+                            <img src="images/scene9_แฮมเบอร์เกอร์.png" class="shop-card-tag" alt="แฮมเบอร์เกอร์">
+                        </div>
+                    </div>
+                    <!-- Cafe -->
+                    <div class="shop-choice-btn-wrapper" style="left: 75%; width: 25%;">
+                        <div class="shop-choice-btn" data-shop="cafe" title="ร้านคาเฟ่">
+                            <img src="images/scene9_คาเฟ่.png" class="shop-card-tag" alt="คาเฟ่">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Choose a Shop Title Button at bottom center -->
+                <div class="shop-selection-title-wrapper">
+                    <img src="images/scene9_thesis เกม-68.png" class="shop-selection-title" alt="เลือกร้านค้าที่จะซื้อ 1 ร้าน">
+                </div>
+            </div>
+
+            <!-- SCENE 11: CONSUMER PHASE (EATING & DIALOGUE) -->
+            <div class="scene hidden" id="scene-11">
+                <!-- Background will be custom shop interior (e.g. scene10_คาเฟ่.png) -->
+                <img src="images/scene10_คาเฟ่.png" class="bg-img" id="scene11-bg-img" alt="ร้านค้า">
+                
+                <!-- HUD Bar showing player money / debt -->
+                <div class="hud-bar">
+                    <div class="hud-money-container" style="position: relative; display: inline-block;">
+                        <div class="hud-money">เงินในกระเป๋าของคุณ: <span class="stat-val" id="scene11-coins">1,000</span> C</div>
+                        <span class="hud-coins-minus hidden" id="scene11-coins-minus">-200 C</span>
+                    </div>
+                    <div class="hud-debt hidden" id="scene11-debt-indicator">หนี้สินสะสม: <span class="stat-val red-text" id="scene11-debt-val">-400</span> C</div>
+                </div>
+
+                <!-- Shop Dialogue Box -->
+                <div class="dialog-box shop-dialog hidden" id="scene11-dialog-box">
+                    <span class="speaker-name" id="scene11-owner-name">เจ้าของร้าน</span>
+                    <p class="dialog-text" id="scene11-dialog-text">ยินดีต้อนรับสู่ร้านของเราครับ!</p>
+                </div>
+
+                <!-- Next button to progress dialogue -->
+                <button class="btn-next" id="btn-scene11-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 12: CONSUMER SHOP COST BREAKDOWN -->
+            <div class="scene hidden" id="scene-12">
+                <img src="images/scene12_ฉาก 12 พื้นหลัง.png" class="bg-img" id="scene12-bg-img" alt="ต้นทุนจริงของร้าน">
+                
+                <!-- Cost card overlay in center -->
+                <div class="scene-cost-card-wrapper hidden" id="scene12-card-wrapper">
+                    <img src="" class="scene-cost-card" id="scene12-cost-card" alt="ใบต้นทุน">
+                </div>
+
+                <div class="scene12-cost-btn-wrapper" id="scene12-cost-btn-wrapper">
+                    <div class="cost-btn-pointer-guide">
+                        <span class="guide-hand">👇</span>
+                        <span class="guide-text">กดเพื่อดูใบต้นทุน!</span>
+                    </div>
+                    <img src="images/scene12_ปุ่มเก็บใบต้นทุน.png" class="scene12-cost-btn" id="btn-scene12-cost" alt="ปุ่มต้นทุน">
+                </div>
+                <button class="btn-next hidden" id="btn-scene12-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 13: MORAL CONNECTION DIALOGUE -->
+            <div class="scene hidden" id="scene-13">
+                <img src="images/scene13_ฉาก 13 พื้นหลัง.png" class="bg-img" alt="แต่คุณรู้หรือไม่ว่าเมื่อสักครู่นี้...">
+                <button class="btn-next" id="btn-scene13-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 14: OUR SHOP COST CONTRAST -->
+            <div class="scene hidden" id="scene-14">
+                <img src="images/scene14_ฉาก 14 พื้นหลัง.png" class="bg-img" id="scene14-bg-img" alt="นี่คือต้นทุนที่แท้จริงของร้านคุณ">
+                
+                <!-- Cost card overlay in center -->
+                <div class="scene-cost-card-wrapper hidden" id="scene14-card-wrapper">
+                    <img src="images/scene14_ต้นทุน.png" class="scene-cost-card" id="scene14-cost-card" alt="ใบต้นทุน">
+                </div>
+
+                <div class="scene14-cost-btn-wrapper" id="scene14-cost-btn-wrapper">
+                    <div class="cost-btn-pointer-guide">
+                        <span class="guide-hand">👇</span>
+                        <span class="guide-text">กดเพื่อดูใบต้นทุน!</span>
+                    </div>
+                    <img src="images/scene14_ปุ่มเก็บต้นทุน.png" class="scene14-cost-btn" id="btn-scene14-cost" alt="ปุ่มต้นทุน">
+                </div>
+                <button class="btn-next hidden" id="btn-scene14-next">
+                    <img src="images/next_btn.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- SCENE 15: FINAL MORAL SUMMARY -->
+            <div class="scene hidden" id="scene-15">
+                <img src="images/scene15_ฉาก 15 พื้นหลัง.png" class="bg-img" alt="เมื่อได้ลองเป็นทั้งผู้ผลิตและผู้บริโภค...">
+                <button class="btn-restart-pill" id="btn-scene15-restart">
+                    เล่นใหม่อีกครั้ง
+                </button>
+            </div>
+
+            <!-- NPC INFO CARD MODAL OVERLAY -->
+            <div class="modal-overlay hidden" id="npc-info-modal">
+                <div class="npc-info-card-container">
+                    <img src="images/scene5_thesis เกม-51.png" class="npc-info-card-img" id="npc-info-img" alt="ข้อมูลนิสัยลูกค้า">
+                    <img src="images/scene5_thesis เกม-55.png" class="btn-close-npc-modal" id="btn-close-npc-modal" alt="Close">
+                </div>
+            </div>
+
+            <!-- AUDIO CONTROL MUTING BUTTON -->
+            <button class="btn-audio-toggle" id="btn-audio-toggle" title="เปิด/ปิดเสียง BGM & SFX">
+                <span id="audio-toggle-icon">🔊</span>
+            </button>
+
+            <!-- DEVELOPER DEV TOOLS PANEL (TESTMODE) -->
+            <div class="dev-tools-wrapper hidden" id="dev-tools-wrapper">
+                <button class="btn-dev-toggle" id="btn-dev-toggle">⚙️ Dev Tools</button>
+                <div class="dev-panel hidden" id="dev-panel">
+                    <h3 class="dev-title">🧪 Test Mode / Debug Panel</h3>
+                    <div class="dev-section">
+                        <h4>💰 Cheats</h4>
+                        <div class="dev-buttons">
+                            <button class="dev-btn" id="dev-add-coins">Add 500 C</button>
+                            <button class="dev-btn" id="dev-skip-ending">Skip to Ending</button>
+                            <button class="dev-btn" id="dev-skip-customer">Skip Customer (Win)</button>
+                        </div>
+                    </div>
+                    <div class="dev-section">
+                        <h4>📊 Current NPC Prefs</h4>
+                        <div class="dev-info" id="dev-npc-prefs">
+                            No active customer
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
