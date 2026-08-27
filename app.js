@@ -1209,6 +1209,12 @@ function setupScene12() {
     getEl('scene12-card-wrapper').classList.add('hidden');
     getEl('scene12-cost-btn-wrapper').classList.remove('hidden');
     getEl('btn-scene12-next').classList.add('hidden');
+
+    // Ensure strictly the selected shop's cost card is prepared
+    document.querySelectorAll('.scene12-cost-card-img').forEach(img => img.classList.add('hidden'));
+    const targetCard = getEl(`scene12-cost-card-${gameState.selectedShop}`);
+    if (targetCard) targetCard.classList.remove('hidden');
+
     showScene('scene-12');
 }
 
