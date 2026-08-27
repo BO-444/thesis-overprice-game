@@ -331,6 +331,17 @@ window.addEventListener('DOMContentLoaded', () => {
     // Initialize Audio Manager
     audioManager.init();
 
+    // One-time interaction listener to unlock audio on mobile / strict browsers
+    const unlockAudio = () => {
+        if (!audioManager.isMuted && !audioManager.currentBgm) {
+            audioManager.playBgm(1);
+        }
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('touchstart', unlockAudio);
+    };
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+
     // Initialize game state & shuffle NPC sequence on page load
     resetGame();
     populateNPCData();
@@ -424,6 +435,14 @@ window.addEventListener('DOMContentLoaded', () => {
         getEl('npc-info-modal').classList.add('hidden');
     });
 
+    const btnCloseNpc = getEl('btn-close-npc-modal');
+    if (btnCloseNpc) {
+        btnCloseNpc.addEventListener('click', (e) => {
+            e.stopPropagation();
+            getEl('npc-info-modal').classList.add('hidden');
+        });
+    }
+
     // Mission Failed Restart Event
     getEl('btn-failed-restart').addEventListener('click', () => {
         audioManager.playBgm(1);
@@ -480,6 +499,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Scene 15 Restart Click
     getEl('btn-scene15-restart').addEventListener('click', () => {
         audioManager.playBgm(1);
+        resetGame();
         showScene('scene-home');
     });
 
@@ -557,6 +577,14 @@ function resetGame() {
     gameState.isRejected = false;
     gameState.isRetrying = false;
     gameState.selectedShop = null;
+
+    // Reset flow and transition flags
+    endingDialogueStep = -1;
+    pricingInput = "";
+    tempSelectedPromo = null;
+    isEvaluating = false;
+    isTransitioningScene11 = false;
+    isShopSelecting = false;
 
     // Fisher-Yates shuffle to pick 3 unique NPCs from the 4 available
     const keys = ['key', 'martin', 'lee', 'aiya'];
@@ -808,14 +836,17 @@ function setupMarketingHandlers() {
             e.stopPropagation();
             if (!tempSelectedPromo) return;
 
-            if (gameState.coins < tempSelectedPromo.cost) {
+            const selectedPromo = tempSelectedPromo;
+            tempSelectedPromo = null; // Clear immediately to prevent double-deduction
+
+            if (gameState.coins < selectedPromo.cost) {
                 alert("เหรียญเงินลงทุนของคุณไม่เพียงพอสำหรับวิธีโฆษณานี้!");
                 return;
             }
 
-            gameState.selectedMarketing = [tempSelectedPromo.campaign];
-            gameState.marketingCost = tempSelectedPromo.cost;
-            gameState.coins -= tempSelectedPromo.cost;
+            gameState.selectedMarketing = [selectedPromo.campaign];
+            gameState.marketingCost = selectedPromo.cost;
+            gameState.coins -= selectedPromo.cost;
 
             const modalEl = getEl('promo-detail-modal');
             if (modalEl) modalEl.classList.add('hidden');
@@ -897,7 +928,10 @@ function setupGameplayPricing() {
 function setupPricingKeypadHandlers() {
     document.querySelectorAll('.key-btn[data-val]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const digit = e.target.dataset.val;
+            const btnEl = e.target.closest('.key-btn');
+            if (!btnEl) return;
+            const digit = btnEl.dataset.val;
+            if (!digit) return;
             
             // Limit price string to 3 digits (Max 999 C)
             if (pricingInput.length >= 3) return;
@@ -905,7 +939,7 @@ function setupPricingKeypadHandlers() {
             
             pricingInput += digit;
             getEl('price-display').textContent = pricingInput;
-            gameState.price = parseInt(pricingInput);
+            gameState.price = parseInt(pricingInput, 10);
         });
     });
 
@@ -918,7 +952,7 @@ function setupPricingKeypadHandlers() {
     getEl('btn-pricing-backspace').addEventListener('click', () => {
         pricingInput = pricingInput.slice(0, -1);
         getEl('price-display').textContent = pricingInput === "" ? "0" : pricingInput;
-        gameState.price = pricingInput === "" ? 0 : parseInt(pricingInput);
+        gameState.price = pricingInput === "" ? 0 : parseInt(pricingInput, 10);
     });
 
     getEl('btn-pricing-submit').addEventListener('click', () => {
@@ -933,8 +967,12 @@ function setupPricingKeypadHandlers() {
 // Phase 1: NPC Arrival (Order request before customization)
 // Duplicate setupNPCArrival removed to fix customer sync bug
 
+let isEvaluating = false;
+
 // Phase 2: NPC Checkout Evaluation (runs after cashier checkout is submitted)
 function setupGameplayNPC() {
+    if (isEvaluating) return;
+    isEvaluating = true;
     gameState.npcPhase = 'evaluation';
     
     // Reset Stamp Verdict UI and hide next button temporarily
@@ -950,6 +988,7 @@ function setupGameplayNPC() {
     // Automatically trigger evaluation stamp after a short delay
     setTimeout(() => {
         evaluateNPCPurchase();
+        isEvaluating = false;
     }, 1500);
 }
 
@@ -1110,14 +1149,21 @@ const shopData = {
 };
 
 let endingDialogueStep = 0;
+let isShopSelecting = false;
+let isTransitioningScene11 = false;
 
 function selectShop(shopKey) {
+    if (isShopSelecting) return;
+    isShopSelecting = true;
+    setTimeout(() => { isShopSelecting = false; }, 400);
+
     gameState.selectedShop = shopKey;
     const shop = shopData[shopKey];
     if (!shop) return;
 
     // Set up Scene 11 values
     endingDialogueStep = -1;
+    isTransitioningScene11 = false;
     
     // Show corresponding preloaded background image
     document.querySelectorAll('.scene11-bg').forEach(img => img.classList.add('hidden'));
@@ -1149,6 +1195,7 @@ function selectShop(shopKey) {
 }
 
 function handleScene11DialogueNext() {
+    if (isTransitioningScene11) return;
     const shop = shopData[gameState.selectedShop];
     if (!shop) return;
 
@@ -1162,6 +1209,7 @@ function handleScene11DialogueNext() {
         getEl('scene11-dialog-text').textContent = shop.dialogues[endingDialogueStep];
     } else {
         // Dialogue complete! Perform coin deduction and show red minus animation
+        isTransitioningScene11 = true;
         const deductCoins = shop.menuCost;
         gameState.coins -= deductCoins;
 
@@ -1199,6 +1247,7 @@ function handleScene11DialogueNext() {
         setTimeout(() => {
             if (coinsMinus) coinsMinus.classList.add('hidden');
             if (btnNext) btnNext.disabled = false;
+            isTransitioningScene11 = false;
             setupScene8();
         }, 1400);
     }
