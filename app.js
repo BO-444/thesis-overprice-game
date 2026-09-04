@@ -107,13 +107,12 @@ const npcDatabase = {
         type: "ติดแบรนด์เนม ชอบความลักชัวรี่",
         intro: "สวัสดีค่ะ! วันนี้มาเดินห้างกับเพื่อน หิวน้ำจัง มีเครื่องดื่มเก๋ ๆ แบรนด์พรีเมียมแนะนำไหมคะ ขอแบบถือเดินห้างแล้วดูไฮโซติดเทรนด์นะ!",
         infoCard: "images/scene5_thesis เกม-56.png",
-        budget: 300,
-        prefColorText: "น้ำตาล (Brown) หรือ เหลืองทอง (Yellow)",
+        budget: 450,
+        prefColorText: "อะไรก็ได้ (Any)",
         prefMarketingText: "จำกัดจำนวน (Limited) / ดารา (Influencer)",
         specialRequirementsText: "ต้องใส่ของตกแต่งแก้วอย่างน้อย 1 ชิ้น (ปลอกแก้ว, สติ๊กเกอร์, หรือหลอด)",
         evaluate: function(drink, price, marketing) {
-            let maxLimit = 300;
-            const preferredColor = drink.color === 'brown' || drink.color === 'yellow';
+            let maxLimit = 450;
             const hasDecor = drink.sleeve || drink.sticker || drink.straw;
 
             const hasLimited = marketing.includes('limited');
@@ -132,12 +131,6 @@ const npcDatabase = {
                     success: false,
                     reason: "น้องคีย์ต้องการแก้วที่มีพร็อบตกแต่ง เพื่อความดูดีมีแบรนด์",
                     dialog: "แก้วโล้น ๆ ไม่มีตราสติ๊กเกอร์หรือปลอกแก้วเลยเหรอคะ? ถือเดินในห้างไม่เก๋เลย ขอผ่านดีกว่าค่ะ"
-                };
-            } else if (!preferredColor) {
-                return {
-                    success: false,
-                    reason: "น้องคีย์ชอบเครื่องดื่มสีน้ำตาลหรือสีเหลืองทองพรีเมียม",
-                    dialog: "สีน้ำสีทึม ๆ แปลก ๆ ไม่ค่อยตรงเทรนด์เลยค่ะ วันนี้อยากกินน้ำสีสวย ๆ ถือเข้าแบรนด์เนมมากกว่า"
                 };
             } else if (price > maxLimit) {
                 return {
@@ -160,12 +153,12 @@ const npcDatabase = {
         type: "ดาว TikTok สายมัทฉะเข้มข้น",
         intro: "หวัดดีครับพี่! ผมเพิ่งเลิกเรียนอินเตอร์มา ร้อนมาก ๆ อยากได้มัทฉะชาเขียวเข้ม ๆ มีเมนูมัทฉะแนะนำไหมครับ? จะเอาไปถ่ายคลิป TikTok แป๊บ!",
         infoCard: "images/scene5_thesis เกม-53.png",
-        budget: 200,
+        budget: 450,
         prefColorText: "เขียว (Green) เท่านั้น",
         prefMarketingText: "ดารา (Influencer) / เล่าเรื่องราว (Story)",
         specialRequirementsText: "ไม่มีความต้องการตกแต่งพิเศษ",
         evaluate: function(drink, price, marketing) {
-            let maxLimit = 200;
+            let maxLimit = 450;
             const preferredColor = drink.color === 'green';
 
             const hasInfluencer = marketing.includes('influencer');
@@ -200,13 +193,12 @@ const npcDatabase = {
         type: "ทุ่มสุดตัวเพื่อดาราโปรด สาย Top-Spender",
         intro: "กรี๊ดดด! สวัสดีค่ะพี่! ร้านนี้มีโปรโมทแบบดาราหรืออินฟลูฯ ที่หนูตามอยู่ไหมคะ? ถ้าเป็นของตามรอยดารา หนูพร้อมทุ่มไม่อั้นเลยค่า!",
         infoCard: "images/scene5_thesis เกม-52.png",
-        budget: 250,
-        prefColorText: "แดง (Red) หรือ เหลืองทอง (Yellow)",
+        budget: 450,
+        prefColorText: "อะไรก็ได้ (Any)",
         prefMarketingText: "ดารา (Influencer) [ต้องโปรโมทดาราเท่านั้น!]",
         specialRequirementsText: "ไม่มีความต้องการตกแต่งพิเศษ",
         evaluate: function(drink, price, marketing) {
-            let maxLimit = 250;
-            const preferredColor = drink.color === 'red' || drink.color === 'yellow';
+            let maxLimit = 450;
 
             const hasInfluencer = marketing.includes('influencer');
             const hasAds = marketing.includes('ads');
@@ -218,12 +210,6 @@ const npcDatabase = {
                     success: false,
                     reason: "น้องลี่ต้องการเห็นแคมเปญ Influencer / ดาราโปรโมท เพื่อตามรอย!",
                     dialog: "อุ๊ย... ร้านพี่ไม่มีเมนูดารา/อินฟลูฯ ที่หนูตามโปรโมทเลยเหรอคะ? แบบนี้หนูไม่ตื่นเต้นเลย ขอผ่านดีกว่าค่ะ"
-                };
-            } else if (!preferredColor) {
-                return {
-                    success: false,
-                    reason: "น้องลี่ชอบเครื่องดื่มสีสดใส (แดง/เหลือง) สำหรับถ่ายรูปคุมโทนสายติ่ง",
-                    dialog: "สีน้ำดูจืดทึมไปหน่อยค่ะ ไม่เหมาะเอาไปถ่ายรูปคู่กับสแตนดี้เมนดาราของหนูเลย pass น้าา"
                 };
             } else if (price > maxLimit) {
                 return {
@@ -246,13 +232,12 @@ const npcDatabase = {
         type: "สายแกลมตามเทรนด์ฮิต social",
         intro: "สวัสดีค่าาา... พึ่งเลิกคลาสเรียนมาเหนื่อย ๆ อยากหาอะไรจิบติดแกลมเก๋ ๆ ชิค ๆ ตามเทรนด์ฮิตตอนนี้ มีแนะนำไหมคะ?",
         infoCard: "images/scene5_thesis เกม-54.png",
-        budget: 200,
-        prefColorText: "แดง (Red), เหลืองทอง (Yellow), หรือ เขียว (Green)",
+        budget: 450,
+        prefColorText: "อะไรก็ได้ (Any)",
         prefMarketingText: "จำกัดจำนวน (Limited) / โฆษณาออนไลน์ (Ads)",
         specialRequirementsText: "ต้องใส่ของตกแต่งแก้วอย่างน้อย 1 ชิ้น (ปลอกแก้ว, สติ๊กเกอร์, หรือหลอด)",
         evaluate: function(drink, price, marketing) {
-            let maxLimit = 200;
-            const preferredColor = drink.color === 'red' || drink.color === 'yellow' || drink.color === 'green';
+            let maxLimit = 450;
             const hasDecor = drink.sleeve || drink.sticker || drink.straw;
 
             const hasLimited = marketing.includes('limited');
@@ -265,12 +250,6 @@ const npcDatabase = {
                     success: false,
                     reason: "น้องอัยยะต้องการแก้วที่มีของตกแต่ง เพื่อความติดแกลม",
                     dialog: "อ้าว... ไม่มีของตกแต่งน่ารัก ๆ ติดแก้วเลยเหรอคะ? แบบนี้จิบแล้วไม่รู้สึกติดแกลมเลยอ่ะค่ะ ขอผ่านน้า"
-                };
-            } else if (!preferredColor) {
-                return {
-                    success: false,
-                    reason: "น้องอัยยะชอบเครื่องดื่มสีสดใสสไตล์แฟชั่น",
-                    dialog: "สีน้ำนี้ไม่เข้ากับลุควันนี้เลยค่ะ ถ่ายรูปเช็คอินมหาลัยไม่ชิค ขอตัวก่อนนะคะ"
                 };
             } else if (price > maxLimit) {
                 return {
@@ -693,6 +672,12 @@ function setupGameplayCustom() {
     });
 
     showScene('scene-gameplay-custom');
+
+    // Auto-show NPC info modal for visibility
+    if (gameState.currentNPC && gameState.currentNPC.infoCard) {
+        getEl('npc-info-img').src = gameState.currentNPC.infoCard;
+        getEl('npc-info-modal').classList.remove('hidden');
+    }
 }
 
 // Pre-composed image mapping logic based on color and decoration selections (Renamed files)
