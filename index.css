@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    overไพร๊ - Design System & Stylesheet
    ========================================================================== */
 
@@ -2128,14 +2128,30 @@ body {
     border: 1px solid #333;
 }
 
-/* Utility class to hide overlays and indicators, preserving scene and layer opacity transitions */
 .hidden:not(.scene):not(.drink-layer) {
     display: none !important;
 }
 
+/* Back Button Styles */
+.btn-back-scene {
+    position: absolute;
+    bottom: 5%;
+    left: 4%;
+    background: #ff7fa6;
+    color: white;
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 1.2vw;
+    font-family: 'Mali', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+    z-index: 70;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
 
- / *   B a c k   B u t t o n   S t y l e s   * / 
- . b t n - b a c k - s c e n e   {   p o s i t i o n :   a b s o l u t e ;   t o p :   2 % ;   l e f t :   2 % ;   b a c k g r o u n d :   # f f 7 f a 6 ;   c o l o r :   w h i t e ;   b o r d e r :   3 p x   s o l i d   w h i t e ;   b o r d e r - r a d i u s :   2 0 p x ;   p a d d i n g :   8 p x   1 6 p x ;   f o n t - s i z e :   1 . 2 v w ;   f o n t - f a m i l y :   ' M a l i ' ,   s a n s - s e r i f ;   f o n t - w e i g h t :   8 0 0 ;   c u r s o r :   p o i n t e r ;   z - i n d e x :   7 0 ;   b o x - s h a d o w :   0   4 p x   1 0 p x   r g b a ( 0 , 0 , 0 , 0 . 2 ) ;   t r a n s i t i o n :   t r a n s f o r m   0 . 2 s ;   } 
- . b t n - b a c k - s c e n e : h o v e r   {   t r a n s f o r m :   s c a l e ( 1 . 1 ) ;   b a c k g r o u n d :   # f f 5 f 9 e ;   } 
-  
- 
+.btn-back-scene:hover {
+    transform: scale(1.1);
+    background: #ff5f9e;
+}

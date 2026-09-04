@@ -442,13 +442,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // Back Buttons (Feedback Level 3)
-    const btnBackCustom = getEl('btn-back-custom');
-    if (btnBackCustom) {
-        btnBackCustom.addEventListener('click', () => {
-            showScene('scene-gameplay-npc');
-        });
-    }
-
     const btnBackMarketing = getEl('btn-back-marketing');
     if (btnBackMarketing) {
         btnBackMarketing.addEventListener('click', () => {
@@ -664,6 +657,18 @@ function setupNPCArrival() {
 
     populateNPCData();
     showScene('scene-gameplay-npc');
+
+    // Auto-show NPC info modal for visibility (with 1 second delay)
+    if (gameState.currentNPC && gameState.currentNPC.infoCard) {
+        getEl('npc-info-img').src = gameState.currentNPC.infoCard;
+        setTimeout(() => {
+            // Only show if we are still on this scene (in case user clicked Next very fast)
+            const npcScene = getEl('scene-gameplay-npc');
+            if (npcScene && !npcScene.classList.contains('hidden')) {
+                getEl('npc-info-modal').classList.remove('hidden');
+            }
+        }, 1000);
+    }
 }
 
 // Customizer Screen Initialization
@@ -698,12 +703,6 @@ function setupGameplayCustom() {
     });
 
     showScene('scene-gameplay-custom');
-
-    // Auto-show NPC info modal for visibility
-    if (gameState.currentNPC && gameState.currentNPC.infoCard) {
-        getEl('npc-info-img').src = gameState.currentNPC.infoCard;
-        getEl('npc-info-modal').classList.remove('hidden');
-    }
 }
 
 // Pre-composed image mapping logic based on color and decoration selections (Renamed files)
