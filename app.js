@@ -441,6 +441,32 @@ window.addEventListener('DOMContentLoaded', () => {
         showScene('scene-home');
     });
 
+    // Back Buttons (Feedback Level 3)
+    const btnBackCustom = getEl('btn-back-custom');
+    if (btnBackCustom) {
+        btnBackCustom.addEventListener('click', () => {
+            showScene('scene-gameplay-npc');
+        });
+    }
+
+    const btnBackMarketing = getEl('btn-back-marketing');
+    if (btnBackMarketing) {
+        btnBackMarketing.addEventListener('click', () => {
+            showScene('scene-gameplay-custom');
+        });
+    }
+
+    const btnBackPricing = getEl('btn-back-pricing');
+    if (btnBackPricing) {
+        btnBackPricing.addEventListener('click', () => {
+            // Refund marketing cost safely before going back
+            if (gameState.marketingCost > 0) {
+                gameState.coins += gameState.marketingCost;
+            }
+            setupGameplayMarketing();
+        });
+    }
+
     // Scenes 7, 8, 10 Narrative Transition Events
     getEl('btn-scene7-next').addEventListener('click', () => {
         setupScene10Transition(); // Go to intro screen first!
