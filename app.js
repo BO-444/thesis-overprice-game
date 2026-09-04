@@ -373,10 +373,22 @@ window.addEventListener('DOMContentLoaded', () => {
         showScene('scene-intro-1');
     });
 
-    getEl('btn-home-credits').addEventListener('click', () => {
-        audioManager.playBgm(1);
-        getEl('credits-modal').classList.remove('hidden');
-    });
+    // Easter Egg: Secret Developer Credit (5 Taps on Logo)
+    let secretTapCount = 0;
+    const logoEl = getEl('game-logo-secret');
+    if (logoEl) {
+        logoEl.addEventListener('click', () => {
+            secretTapCount++;
+            if (secretTapCount >= 5) {
+                audioManager.playBgm(1);
+                getEl('credits-modal').classList.remove('hidden');
+                secretTapCount = 0; // reset
+            }
+        });
+    }
+
+    // Developer Signature in Console
+    console.log("%c☕ overไพร๊ (Overprice Simulator) %c\nDeveloped by ญาณพัฒน์ จวงเจิม\nNaresuan University", "color: #ff5f9e; font-size: 24px; font-weight: bold;", "color: #4a4a4a; font-size: 14px;");
 
     getEl('btn-close-credits').addEventListener('click', () => {
         getEl('credits-modal').classList.add('hidden');
